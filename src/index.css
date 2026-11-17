@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-pixel-display: 'Press Start 2P', monospace;
+    --font-pixel-ui: 'Silkscreen', monospace;
+    --font-mono-data: 'JetBrains Mono', monospace;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #08070e;
+    font-family: var(--font-pixel-ui);
+  }
+}
+
+.font-pixel-display {
+  font-family: var(--font-pixel-display);
+}
+
+.font-pixel-ui {
+  font-family: var(--font-pixel-ui);
+}
+
+.font-mono-data {
+  font-family: var(--font-mono-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.pixel-canvas {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-panel {
+  background-color: rgba(11, 10, 20, 0.94);
+  border: 2px solid #2b2744;
+  box-shadow:
+    inset 0 0 0 2px #131122,
+    0 4px 0 0 #040308;
+}
+
+.pixel-btn {
+  border: 2px solid #3c3661;
+  box-shadow:
+    inset 0 2px 0 0 rgba(255, 255, 255, 0.14),
+    0 3px 0 0 #05040a;
+  transition: transform 80ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.pixel-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: #60a5fa;
+}
+
+.pixel-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 2px 0 0 rgba(0, 0, 0, 0.35),
+    0 1px 0 0 #05040a;
+}
+
+.pixel-text-shadow {
+  text-shadow: 2px 2px 0 #040308, -1px -1px 0 #040308, 1px -1px 0 #040308, -1px 1px 0 #040308;
+}
