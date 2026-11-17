@@ -335,4 +335,6 @@ export interface HudSnapshot {
   cameraZoom: number;
   winner: 'player' | 'enemy' | null;
   storyComplete: boolean;
+  victoryQuote: string;
+  victoryQuoteTag: string;
 }

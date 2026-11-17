@@ -13,8 +13,16 @@ import {
   getEnemyMoveSpec,
   getPlayerMoveSpec,
   resolveHit,
+  selectVictoryQuote,
 } from './rules';
-import { CHARACTER_PROFILES, PLAYABLE_LIST, PLAYABLE_SKILLS, STORY_STAGES, VILLAIN_LIST } from './roster';
+import {
+  CHARACTER_PROFILES,
+  PLAYABLE_LIST,
+  PLAYABLE_SKILLS,
+  STORY_STAGES,
+  VICTORY_QUOTE_KITS,
+  VILLAIN_LIST,
+} from './roster';
 
 test('All 14 characters are playable with 5 unique skills & cinematic Domain Expansion', () => {
   assert.equal(PLAYABLE_LIST.length, 14);
@@ -146,4 +154,49 @@ test('Core chains, Toji Infinity piercing, Sukuna 3 phases, and Blue pull work c
   assert.ok(pull.vx < 0);
   assert.equal(clampStageX(-50), 24);
   assert.ok(calculateRoundScore({ remainingHp: 150, maxHp: 300, maxCombo: 5, timeRemaining: 40, stageNumber: 1 }) > 0);
+});
+
+test('All 14 fighters have unique victory quotes & contextual priority (rival > domain > flawless > default)', () => {
+  for (const id of PLAYABLE_LIST) {
+    const kit = VICTORY_QUOTE_KITS[id];
+    assert.ok(kit.defaultQuote.length > 5);
+    assert.ok(kit.domainFinishQuote.length > 5);
+    assert.ok(kit.flawlessWinQuote.length > 5);
+    assert.ok(Object.keys(kit.vsRivals).length >= 2);
+  }
+
+  const rival = selectVictoryQuote({
+    winnerId: 'gojo',
+    loserId: 'sukuna',
+    finishedWithDomain: true,
+    winnerHpRatio: 1.0,
+  });
+  assert.equal(rival.tag, 'RIVAL CLASH');
+  assert.match(rival.quote, /King of Curses/i);
+
+  const domain = selectVictoryQuote({
+    winnerId: 'sukuna',
+    loserId: 'panda',
+    finishedWithDomain: true,
+    winnerHpRatio: 0.9,
+  });
+  assert.equal(domain.tag, 'DOMAIN FINISH');
+  assert.match(domain.quote, /Malevolent Shrine/i);
+
+  const flawless = selectVictoryQuote({
+    winnerId: 'yuta',
+    loserId: 'panda',
+    finishedWithDomain: false,
+    winnerHpRatio: 0.92,
+  });
+  assert.equal(flawless.tag, 'FLAWLESS FORM');
+
+  const standard = selectVictoryQuote({
+    winnerId: 'toji',
+    loserId: 'panda',
+    finishedWithDomain: false,
+    winnerHpRatio: 0.5,
+  });
+  assert.equal(standard.tag, 'VICTORY QUOTE');
+  assert.equal(standard.quote, CHARACTER_PROFILES.toji.victoryQuote);
 });

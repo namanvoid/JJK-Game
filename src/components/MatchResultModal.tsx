@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { getCharacterPortraitDataUrl } from '../game/pixelSprites';
 import { CHARACTER_PROFILES, STORY_STAGES } from '../game/roster';
 import { HudSnapshot } from '../game/types';
 
@@ -18,9 +19,11 @@ export const MatchResultModal: React.FC<MatchResultModalProps> = ({
   const playerWon = hud.winner === 'player';
   const hasNextStage =
     hud.mode === 'story' && playerWon && hud.stageIndex < STORY_STAGES.length - 1;
-  const quote = playerWon
-    ? CHARACTER_PROFILES[hud.playerId].victoryQuote
-    : CHARACTER_PROFILES[hud.enemyId].victoryQuote;
+  const winnerId = playerWon ? hud.playerId : hud.enemyId;
+  const winnerProfile = CHARACTER_PROFILES[winnerId];
+  const winnerPortrait = useMemo(() => getCharacterPortraitDataUrl(winnerId), [winnerId]);
+  const quote = hud.victoryQuote || winnerProfile.victoryQuote;
+  const quoteTag = hud.victoryQuoteTag || 'VICTORY QUOTE';
 
   return (
     <div
@@ -31,7 +34,7 @@ export const MatchResultModal: React.FC<MatchResultModalProps> = ({
     >
       <div className="pixel-panel w-full max-w-md p-6 text-center text-slate-100">
         <h2
-          className={`font-pixel-display text-xl sm:text-2xl mb-2 ${
+          className={`font-pixel-display text-xl sm:text-2xl mb-3 ${
             hud.storyComplete
               ? 'text-amber-300'
               : playerWon
@@ -51,7 +54,38 @@ export const MatchResultModal: React.FC<MatchResultModalProps> = ({
             ? 'VICTORY'
             : 'DEFEAT'}
         </h2>
-        <p className="text-xs text-slate-300 italic mb-5">"{quote}"</p>
+
+        {/* Character-Specific Victory Quote Card */}
+        <div
+          data-testid="victory-quote-card"
+          className="mb-4 p-3 bg-[#0c0a18] border-2 text-left flex items-start gap-3"
+          style={{ borderColor: winnerProfile.accentColor }}
+        >
+          <img
+            src={winnerPortrait}
+            alt={winnerProfile.name}
+            className="w-12 h-12 pixel-canvas border border-[#2f2b4a] shrink-0 bg-[#121022]"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1">
+              <span
+                className="text-[11px] font-bold tracking-wide"
+                style={{ color: winnerProfile.accentColor }}
+              >
+                {winnerProfile.name.toUpperCase()}
+              </span>
+              <span className="text-[9px] font-mono-data px-1.5 py-0.5 bg-[#19162e] border border-[#342f58] text-amber-300">
+                {quoteTag}
+              </span>
+            </div>
+            <p className="text-xs text-slate-100 italic leading-relaxed">
+              &ldquo;{quote}&rdquo;
+            </p>
+            <div className="text-[10px] text-slate-400 mt-1 truncate">
+              {winnerProfile.title}
+            </div>
+          </div>
+        </div>
 
         {/* Tabular Stats */}
         <div className="grid grid-cols-2 gap-2.5 mb-5 text-left">

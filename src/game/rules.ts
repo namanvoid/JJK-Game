@@ -1,3 +1,4 @@
+import { VICTORY_QUOTE_KITS } from './roster';
 import {
   Difficulty,
   FighterAction,
@@ -2309,4 +2310,30 @@ export function calculateRoundScore(params: {
   const timeBonus = Math.round(Math.max(0, params.timeRemaining) * 18);
   const stageBonus = params.stageNumber * 500;
   return hpBonus + comboBonus + timeBonus + stageBonus;
+}
+
+export type VictoryQuoteTag =
+  | 'RIVAL CLASH'
+  | 'DOMAIN FINISH'
+  | 'FLAWLESS FORM'
+  | 'VICTORY QUOTE';
+
+export function selectVictoryQuote(params: {
+  winnerId: FighterId;
+  loserId: FighterId;
+  finishedWithDomain: boolean;
+  winnerHpRatio: number;
+}): { quote: string; tag: VictoryQuoteTag } {
+  const kit = VICTORY_QUOTE_KITS[params.winnerId];
+  const rivalQuote = kit.vsRivals[params.loserId];
+  if (rivalQuote) {
+    return { quote: rivalQuote, tag: 'RIVAL CLASH' };
+  }
+  if (params.finishedWithDomain) {
+    return { quote: kit.domainFinishQuote, tag: 'DOMAIN FINISH' };
+  }
+  if (params.winnerHpRatio >= 0.85) {
+    return { quote: kit.flawlessWinQuote, tag: 'FLAWLESS FORM' };
+  }
+  return { quote: kit.defaultQuote, tag: 'VICTORY QUOTE' };
 }

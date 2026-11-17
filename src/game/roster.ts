@@ -1001,6 +1001,151 @@ export const CHARACTER_PROFILES: Record<FighterId, CharacterProfile> = {
   },
 };
 
+export interface VictoryQuoteKit {
+  defaultQuote: string;
+  domainFinishQuote: string;
+  flawlessWinQuote: string;
+  vsRivals: Partial<Record<FighterId, string>>;
+}
+
+export const VICTORY_QUOTE_KITS: Record<FighterId, VictoryQuoteKit> = {
+  gojo: {
+    defaultQuote: CHARACTER_PROFILES.gojo.victoryQuote,
+    domainFinishQuote: 'Once Unlimited Void opens, everything stops—except my victory.',
+    flawlessWinQuote: "You didn't even scratch Infinity. Better luck next century!",
+    vsRivals: {
+      sukuna: 'You fought well, King of Curses—too bad Limitless still reigns supreme.',
+      toji: "Sorry, Amanai... I'm not even angry right now. The world just feels wonderful.",
+      geto: 'Rest easy, Suguru. You are still my one and only best friend.',
+      jogo: 'See? Even a disaster curse cannot cross the space between us.',
+    },
+  },
+  yuta: {
+    defaultQuote: CHARACTER_PROFILES.yuta.victoryQuote,
+    domainFinishQuote: 'Authentic Mutual Love answers every bond I carry into battle!',
+    flawlessWinQuote: "With Rika by my side, I won't let anyone get hurt.",
+    vsRivals: {
+      geto: "Pure love isn't something a curse manipulator could ever comprehend!",
+      kenjaku: 'I promised I would put an end to your thousand-year schemes myself.',
+      sukuna: 'I will copy whatever it takes to stop the King of Curses.',
+    },
+  },
+  megumi: {
+    defaultQuote: CHARACTER_PROFILES.megumi.victoryQuote,
+    domainFinishQuote: 'Chimera Shadow Garden swallows every escape route you had.',
+    flawlessWinQuote: 'Clean execution. The Ten Shadows never miss an opening.',
+    vsRivals: {
+      toji: "Whatever happens, I'm a jujutsu sorcerer—not living under your shadow.",
+      sukuna: 'I refuse to become your vessel or your toy, Sukuna!',
+    },
+  },
+  panda: {
+    defaultQuote: CHARACTER_PROFILES.panda.victoryQuote,
+    domainFinishQuote: 'Gorilla, Triceratops, and Panda—all three cores brought down the house!',
+    flawlessWinQuote: 'Wait, did I barely break a sweat? Even bears take naps harder than this!',
+    vsRivals: {
+      kashimo: 'Not bad, lightning guy—but you still could not crack all three cores!',
+      geto: 'Leave Tokyo Jujutsu High out of your twisted crusade.',
+    },
+  },
+  jogo: {
+    defaultQuote: CHARACTER_PROFILES.jogo.victoryQuote,
+    domainFinishQuote: 'Reduced to cinders inside the Coffin of the Iron Mountain!',
+    flawlessWinQuote: 'Do not look down on the curses born of volcanic wrath!',
+    vsRivals: {
+      gojo: 'At last... the Six Eyes burn away to ash before true cursed flame!',
+      sukuna: 'Even the King of Curses had to acknowledge the heat of my flames!',
+    },
+  },
+  mahito: {
+    defaultQuote: CHARACTER_PROFILES.mahito.victoryQuote,
+    domainFinishQuote: 'Touch your soul once inside Perfection, and the match is already over!',
+    flawlessWinQuote: 'Hahaha! Your soul is shaped so fragilely—I barely tried!',
+    vsRivals: {
+      yuta: 'What a dense curse! Your soul is thrilling to touch!',
+      megumi: 'Show me more desperation, Ten Shadows boy!',
+      sukuna: 'Hahaha! Even the King of Curses could not dictate my soul!',
+    },
+  },
+  hanami: {
+    defaultQuote: CHARACTER_PROFILES.hanami.victoryQuote,
+    domainFinishQuote: 'Beneath the Shining Sea of Branches, all malice withers peacefully.',
+    flawlessWinQuote: 'Rooted like an ancient cedar—your strikes could not pierce my bark.',
+    vsRivals: {
+      gojo: 'Even Limitless bows when the forest reclaims the battlefield.',
+      megumi: 'Shadows fade beneath the sunlight of the canopy.',
+    },
+  },
+  choso: {
+    defaultQuote: CHARACTER_PROFILES.choso.victoryQuote,
+    domainFinishQuote: 'Blood Eclipse binds this arena in crimson—for Eso and Kechizu!',
+    flawlessWinQuote: 'My blood circulates in perfect harmony. You stood no chance.',
+    vsRivals: {
+      kenjaku: 'You called my brothers failures—now answer for every drop of blood!',
+      uraume: 'Not even sub-zero frost can stop Flowing Red Scale.',
+    },
+  },
+  geto: {
+    defaultQuote: CHARACTER_PROFILES.geto.victoryQuote,
+    domainFinishQuote: 'Four thousand curses condensed into Uzumaki leave nothing standing.',
+    flawlessWinQuote: 'A monkey wielding brute force cannot rival Cursed Spirit Manipulation.',
+    vsRivals: {
+      gojo: 'In another life, Satoru... perhaps we stood side by side.',
+      yuta: 'Your pure love burned bright, Okkotsu—yet my conviction endures.',
+      toji: 'I overcame the ghost of the Zenin clan at last.',
+    },
+  },
+  uraume: {
+    defaultQuote: CHARACTER_PROFILES.uraume.victoryQuote,
+    domainFinishQuote: 'Frozen at Absolute Zero—shatter into silence.',
+    flawlessWinQuote: 'Such clumsy heat could never thaw Lord Sukuna’s frost.',
+    vsRivals: {
+      choso: 'Your boiling blood freezes just as easily as any other.',
+      gojo: 'Not even the Six Eyes may obstruct Lord Sukuna.',
+    },
+  },
+  kashimo: {
+    defaultQuote: CHARACTER_PROFILES.kashimo.victoryQuote,
+    domainFinishQuote: 'Turn up the volume! Thunderclap Arena turns lightning into a funeral!',
+    flawlessWinQuote: 'That was over too fast! Does anyone in this era know how to fight?!',
+    vsRivals: {
+      sukuna: 'Yes! Show me everything, King of Curses—make every bolt count!',
+      panda: 'Three cores and you still went down in a flash!',
+    },
+  },
+  toji: {
+    defaultQuote: CHARACTER_PROFILES.toji.victoryQuote,
+    domainFinishQuote: 'No domain, no cursed energy—just steel and pure speed.',
+    flawlessWinQuote: 'You leaned on your cursed technique like a crutch. Fatal mistake.',
+    vsRivals: {
+      gojo: 'Too slow, Six Eyes. The Inverted Spear cuts right through Infinity.',
+      geto: 'Keep your pet curses on a tighter leash next time.',
+      megumi: 'Still standing tall with the Fushiguro name... not bad, kid.',
+    },
+  },
+  kenjaku: {
+    defaultQuote: CHARACTER_PROFILES.kenjaku.victoryQuote,
+    domainFinishQuote: 'An open-barrier Domain is a masterpiece painted directly onto the sky.',
+    flawlessWinQuote: 'One thousand years of cursed refinement—versus a momentary spark.',
+    vsRivals: {
+      yuta: 'So this is Satoru Gojo’s prized student? Still too predictable.',
+      choso: 'A Death Painting clinging to brotherhood? Truly fascinating.',
+      gojo: 'Checkmate, Six Eyes. Even you cannot outmaneuver a millennium.',
+    },
+  },
+  sukuna: {
+    defaultQuote: CHARACTER_PROFILES.sukuna.victoryQuote,
+    domainFinishQuote: 'Inside Malevolent Shrine, nothing escapes Cleave and Dismantle.',
+    flawlessWinQuote: 'Is that really all? Know your place, fool.',
+    vsRivals: {
+      gojo: 'I will never forget you for as long as I live, Satoru Gojo.',
+      jogo: 'Stand proud, Jogo. You were strong.',
+      yuta: 'Not bad, brat—your resolve almost entertained me.',
+      kashimo: 'You hungered for an answer. Here it is—absolute strength.',
+    },
+  },
+};
+
 export const ARENA_PROFILES: Record<ArenaId, ArenaProfile> = {
   jujutsu_high: {
     id: 'jujutsu_high',

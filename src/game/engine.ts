@@ -15,6 +15,7 @@ import {
   getEnemyMoveSpec,
   getPlayerMoveSpec,
   resolveHit,
+  selectVictoryQuote,
 } from './rules';
 import {
   Afterimage,
@@ -114,6 +115,8 @@ export class CursedClashEngine {
   public matchTime = 0;
   public winner: 'player' | 'enemy' | null = null;
   public storyComplete = false;
+  public victoryQuote = '';
+  public victoryQuoteTag = '';
   public bannerText = 'ROUND 1';
   public bannerSubtext = 'CURSED CLASH';
 
@@ -125,6 +128,7 @@ export class CursedClashEngine {
   public domainCasterId: FighterId | null = null;
   public domainTitle = '';
   public shrineSlashTimer = 0;
+  private lastHitWasDomain = false;
 
   public timeSec = 0;
   private hitstopTimer = 0;
@@ -277,6 +281,8 @@ export class CursedClashEngine {
     this.playerRounds = 0;
     this.enemyRounds = 0;
     this.winner = null;
+    this.victoryQuote = '';
+    this.victoryQuoteTag = '';
     this.screenState = 'playing';
     document.body.dataset.state = 'playing';
     this.resetRound(subtitle);
@@ -296,6 +302,7 @@ export class CursedClashEngine {
     this.domainCinematicTimer = 0;
     this.domainCasterId = null;
     this.domainTitle = '';
+    this.lastHitWasDomain = false;
     this.hitstopTimer = 0;
     this.trauma = 0;
     this.screenFlashAlpha = 0;
@@ -2447,6 +2454,9 @@ export class CursedClashEngine {
     }
 
     defender.hp = Math.max(0, defender.hp - res.damage);
+    if (res.damage > 0) {
+      this.lastHitWasDomain = spec.id === 'skill_5_domain' || spec.id === 'enemy_ultimate';
+    }
     attacker.ce = Math.min(attacker.maxCe, attacker.ce + res.ceGainAttacker);
     defender.ce = Math.min(defender.maxCe, defender.ce + res.ceGainDefender);
 
@@ -2720,6 +2730,21 @@ export class CursedClashEngine {
       this.bannerText = this.player.hp <= 0 ? 'K.O.!' : 'TIME OVER';
       this.bannerSubtext = `${this.enemy.name.toUpperCase()} WINS ROUND`;
       audioEngine.playSfx('ko');
+    }
+
+    if (this.playerRounds >= 2 || this.enemyRounds >= 2) {
+      const playerMatchWin = this.playerRounds >= 2;
+      const winFighter = playerMatchWin ? this.player : this.enemy;
+      const loseFighter = playerMatchWin ? this.enemy : this.player;
+      const picked = selectVictoryQuote({
+        winnerId: winFighter.id,
+        loserId: loseFighter.id,
+        finishedWithDomain: this.lastHitWasDomain,
+        winnerHpRatio: winFighter.hp / Math.max(1, winFighter.maxHp),
+      });
+      this.victoryQuote = picked.quote;
+      this.victoryQuoteTag = picked.tag;
+      this.bannerSubtext = `${winFighter.name.toUpperCase()}: "${picked.quote}"`;
     }
 
     this.roundPhase = 'round_end';
@@ -3041,6 +3066,8 @@ export class CursedClashEngine {
       cameraZoom: Number(this.camera.zoom.toFixed(2)),
       winner: this.winner,
       storyComplete: this.storyComplete,
+      victoryQuote: this.victoryQuote,
+      victoryQuoteTag: this.victoryQuoteTag,
     };
   }
 }

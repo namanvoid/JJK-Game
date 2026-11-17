@@ -290,7 +290,7 @@ export default function App() {
       if (hudTickAccum >= 0.065) {
         hudTickAccum = 0;
         const snap = engine.getHudSnapshot();
-        const sig = `${snap.screenState}|${snap.roundPhase}|${snap.roundTimer}|${snap.playerId}|${snap.playerHp}|${snap.playerGhostHp}|${snap.playerCe}|${snap.playerInfinity}|${snap.playerBuffTimer}|${snap.playerRounds}|${snap.playerCombo}|${snap.playerComboMultiplier}|${snap.enemyHp}|${snap.enemyGhostHp}|${snap.enemyRounds}|${snap.enemyBossPhase}|${snap.score}|${snap.bannerText}|${snap.domainActive}|${snap.stageIndex}`;
+        const sig = `${snap.screenState}|${snap.roundPhase}|${snap.roundTimer}|${snap.playerId}|${snap.playerHp}|${snap.playerGhostHp}|${snap.playerCe}|${snap.playerInfinity}|${snap.playerBuffTimer}|${snap.playerRounds}|${snap.playerCombo}|${snap.playerComboMultiplier}|${snap.enemyHp}|${snap.enemyGhostHp}|${snap.enemyRounds}|${snap.enemyBossPhase}|${snap.score}|${snap.bannerText}|${snap.bannerSubtext}|${snap.domainActive}|${snap.stageIndex}|${snap.victoryQuote}`;
         if (sig !== lastHudSignature) {
           lastHudSignature = sig;
           setHud(snap);
